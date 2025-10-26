@@ -1,0 +1,36 @@
+---
+import MainLayout from "./MainLayout.astro";
+const { title, subtitle, image } = Astro.props.frontmatter;
+---
+
+<MainLayout title={title}>
+  <figure class="figure">
+    <img class="figure__image" src={image} alt={title} />
+    <figcaption class="figure__caption">
+      <strong>{title}</strong> хуудасны зураг
+    </figcaption>
+  </figure>
+  <h1>{title}</h1>
+  <h2>{subtitle}</h2>
+
+  <slot />
+</MainLayout>
+
+<style>
+  h1 + h2 {
+    margin-bottom: 3rem;
+  }
+
+  .figure {
+    margin: 0;
+  }
+
+  .figure__image {
+    max-width: 100%;
+    border-radius: 10px;
+  }
+
+  .figure__caption {
+    font-size: 0.9rem;
+  }
+</style>

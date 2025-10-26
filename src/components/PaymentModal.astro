@@ -1,0 +1,38 @@
+<div id="paymentModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>💳 Төлбөрийн мэдээлэл</h2>
+        <ul>
+            <li><b>Банк:</b> Хаан банк</li>
+            <li><b>Данс:</b> 5012345678</li>
+            <li><b>Нэр:</b> Deelii</li>
+            <li><b>Гүйлгээний утга:</b> Script нэр + таны нэр</li>
+        </ul>
+    </div>
+</div>
+
+<style>
+    .modal {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.6);
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+    }
+    .modal-content {
+        background: var(--background);
+        padding: 20px;
+        border-radius: 10px;
+        text-align: center;
+        width: 300px;
+    }
+    .close {
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        cursor: pointer;
+        font-size: 20px;
+    }
+</style>

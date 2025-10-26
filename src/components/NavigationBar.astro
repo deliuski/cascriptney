@@ -1,0 +1,89 @@
+---
+import ThemeToggler from "./ThemeToggler.astro";
+import Logo from "./Logo.astro";
+---
+
+<nav>
+  <Logo />
+
+  <ul>
+    <li><a href="/">Нүүр</a></li>
+    <li><a href="/script">Скрипт</a></li>
+    <li><a href="/learn">Контент</a></li>
+    <li><a href="/exchange">Ханш</a></li>
+  </ul>
+  <div class="nav-icons">
+    <a href="/login"><i class="bxr bx-user" id="profileIcon"></i></a>
+    <i class="bxr bx-shopping-bag-alt" id="bagIcon"></i>
+    <ThemeToggler />
+  </div>
+</nav>
+
+<style>
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 1rem 0;
+  }
+
+  nav img {
+    margin: 10px;
+  }
+  .nav-icons {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  #profileIcon,
+  #bagIcon {
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--grey-400);
+    transition: all 0.2s ease-in-out;
+  }
+  #profileIcon:active,
+  #bagIcon:active {
+    transform: scale(1);
+    color: var(--grey-900);
+  }
+  #profileIcon:hover,
+  #bagIcon:hover {
+    transform: scale(0.9);
+    color: var(--grey-900);
+  }
+
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0;
+    margin: 0 5%;
+  }
+
+  nav li {
+    opacity: 0.8;
+    list-style: none;
+    font-size: 0.95rem;
+    margin: 1rem 0;
+  }
+
+  a {
+    padding: 0.5rem 0.8rem;
+
+    text-decoration: none;
+    color: var(--grey-400);
+  }
+  a:hover,
+  a.active {
+    color: var(--grey-900);
+  }
+</style>
+
+<script>
+  const pathname = window.location.pathname;
+  const link = document.querySelector(`nav a[href="${pathname}"]`);
+  if (link) {
+    link.classList.add("active");
+  }
+</script>

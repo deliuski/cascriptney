@@ -1,0 +1,59 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900");
+/* Global Styles */
+
+html {
+  --background: white;
+  --background-alt: #f9f9f9;
+  --grey-200: #222222;
+  --grey-400: #444444;
+  --grey-600: #333333;
+  --grey-900: #111111;
+}
+
+html.dark {
+  --background: #1f2122;
+  --background-alt: #27292a;
+  --grey-200: #eaeaea;
+  --grey-400: #666666;
+  --grey-600: #ffffff;
+  --grey-900: #fafafa;
+}
+
+
+
+body {
+  font-family: "Inter", sans-serif;
+  padding: 0 0.5rem;
+  color: var(--grey-600);
+  background-color: var(--background);
+}
+
+.title {
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+}
+
+h1 {
+  font-size: 3rem;
+  line-height: 1;
+}
+
+h1+h2 {
+  font-size: 1.1rem;
+  margin-top: -1.4rem;
+  opacity: 0.9;
+  font-weight: 400;
+}
+
+main {
+  max-width: 50rem;
+  margin: auto;
+}
+
+p,
+li {
+  font-size: 1rem;
+  color: var(--gray-400);
+  opacity: 0.8;
+}

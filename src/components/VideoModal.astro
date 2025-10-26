@@ -1,0 +1,115 @@
+<!-- HTML (хураангуй) -->
+<div id="videoModal" class="modal" aria-hidden="true">
+    <div class="modal-content">
+        <button class="close" aria-label="Close">&times;</button>
+        <h2>🎬 Заавар видео</h2>
+
+        <div class="video-wrap">
+            <iframe
+                src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen></iframe>
+        </div>
+    </div>
+</div>
+
+<!-- CSS -->
+<style>
+    /* overlay + center */
+    .modal {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.6);
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        padding: 20px;
+    }
+
+    /* modal box */
+    .modal-content {
+        width: 100%;
+        max-width: 50%;
+        background: var(--background-alt);
+        border-radius: 12px;
+        padding: 20px;
+        position: relative; /* so .close can be absolute */
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+    }
+
+    /* close button (absolute top-right) */
+    .close {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        background: transparent;
+        border: 0;
+        color: var(--grey-600);
+        font-size: 24px;
+        line-height: 1;
+        cursor: pointer;
+        padding: 6px;
+        border-radius: 6px;
+        transition:
+            transform 0.12s ease,
+            color 0.12s ease;
+    }
+    .close:hover {
+        transform: scale(1.08);
+        color: var(--grey-900);
+    }
+
+    /* responsive video wrapper 16:9 */
+    .video-wrap {
+        position: relative;
+        width: 100%;
+        padding-bottom: 56.25%; /* 16:9 ratio */
+        height: 0;
+        overflow: hidden;
+        border-radius: 8px;
+        margin-top: 12px;
+    }
+    .video-wrap iframe {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        border: 0;
+        display: block;
+    }
+
+    /* small screens tweak */
+    @media (max-width: 1024px) {
+        .modal-content {
+            padding: 12px;
+            min-width: 500px;
+        }
+        .close {
+            top: 8px;
+            right: 8px;
+            font-size: 20px;
+        }
+    }
+    @media (max-width: 600px) {
+        .modal-content {
+            padding: 12px;
+            max-width: 90%;
+            min-width: 300px;
+        }
+        .close {
+            top: 8px;
+            right: 8px;
+            font-size: 20px;
+        }
+    }
+
+    /* optional blurred background class you used */
+    body.blurred .store,
+    body.blurred .header {
+        filter: blur(5px);
+        pointer-events: none;
+        user-select: none;
+    }
+</style>

@@ -1,0 +1,44 @@
+---
+import "../styles/global.css";
+import NavigationBar from "../components/NavigationBar.astro";
+import Footer from "../components/Footer.astro";
+import PreLoader from "../components/PreLoader.astro";
+const { keywords = "Гайхалтай блог", title } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- <slot name="css" />
+    <slot name="keywords" /> -->
+    <meta charset="UTF-8" />
+    <meta name="keywords" content={keywords} />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.boxicons.com/fonts/basic/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <script is:inline>
+      const color = localStorage.getItem("theme");
+      if (color === "dark") {
+        document.documentElement.classList.add("dark");
+      }
+    </script>
+    <title>{title}</title>
+  </head>
+
+  <body>
+    <main>
+      <PreLoader />
+      <NavigationBar />
+      <slot />
+      <Footer />
+    </main>
+  </body>
+</html>

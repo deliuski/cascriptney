@@ -1,0 +1,119 @@
+---
+import MainLayout from "../layouts/MainLayout.astro";
+const profileImage =
+  "https://1.bp.blogspot.com/-wE3xjDZVZW4/YVNmFGsJKII/AAAAAAAAF28/IULfITMewuMK5V89pCfhvGJDiHq6xlORwCLcBGAsYHQ/s0/Andrea%2BWu.jpeg";
+import data from "../data/data.json";
+import Cards from "../components/Cards.astro";
+const name = "Andrea Wu";
+
+const blogs = await Astro.glob<{
+  image: string;
+  title: string;
+  subtitle: string;
+}>("./blogs/*.md");
+---
+
+<MainLayout title="Нүүр хуудас">
+  <div class="profile">
+    <img
+      src={profileImage}
+      alt="Firebase blog"
+      class="profile__picture"
+      width="100px"
+      height="100px"
+    />
+
+    <div class="profile__details">
+      <h1 set:html={name}>
+        <h2>Developer Advocate</h2>
+        <p>
+          Developers worldwide submitted nearly a thousand impressive Firebase
+          apps to the Gemini API Developer Competition.
+        </p>
+      </h1>
+    </div>
+
+
+    <Cards data={data} />
+
+    <div class="featured-blogs">
+      <h3 class="featured-blogs__title">Featured Blogs</h3>
+      <p class="featured-blogs__description">
+        2024 has been a year of significant growth and innovation for Firebase.
+      </p>
+    </div>
+
+    <ol>
+      {
+        blogs.map((blog) => (
+          <li class="blogs__list">
+            <a href={blog.url} class="blog__link">
+              {blog.frontmatter.subtitle}
+            </a>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+
+  <style>
+    .profile {
+      display: flex;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      padding: 1rem 0 3rem 0;
+    }
+
+    .profile__details {
+      flex: 1 0 300px;
+    }
+
+    .profile__details > h1 {
+      margin-top: 0;
+    }
+
+    .profile__picture {
+      border-radius: 50%;
+      margin: 0 2rem 1rem 0;
+    }
+
+    .featured-blogs {
+
+      margin: 0;
+      padding: 3rem 0 0 0;
+    }
+    .featured-blogs__title {
+      font-size: 2rem;
+      color: var(--grey-900);
+    }
+
+    .featured-blogs__description {
+      margin-top: -1.2rem;
+    }
+
+    .blogs {
+      font-size: 1rem;
+      font-weight: 500;
+    }
+
+    .blogs__list {
+      border-bottom: 1px solid;
+      border-color: var(--grey-200);
+    }
+
+    .blog__link {
+      opacity: 1;
+      height: 100%;
+      display: block;
+      padding: 1rem 0;
+      color: var(--grey-200);
+      text-decoration: none;
+      transition: opacity 0.2s ease-in-out;
+    }
+
+    .blog__link:hover {
+      opacity: 0.7;
+    }
+
+  </style>
+</MainLayout>

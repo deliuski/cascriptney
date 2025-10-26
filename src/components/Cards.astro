@@ -1,0 +1,23 @@
+---
+const { data } = Astro.props;
+import Card from "./Card.astro";
+---
+
+<div class="cards">
+  {data.map((json) => <Card {...json} />)}
+</div>
+
+<style>
+  .cards {
+    
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  @media screen and (min-width: 768px) {
+    .cards {
+      flex-direction: row;
+    }
+  }
+</style>

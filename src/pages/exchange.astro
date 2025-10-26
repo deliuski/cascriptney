@@ -1,0 +1,141 @@
+---
+import MainLayout from "../layouts/MainLayout.astro";
+
+async function getCryptoData() {
+  try {
+    const cgRes = await fetch("https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,litecoin,ethereum,dogecoin,tron,solana,matic-network,binancecoin,tether&vs_currencies=usd&include_1hr_change=true");
+    const mnRes = await fetch("https://monxansh.appspot.com/xansh.json?currency=USD");
+
+    const cryptoData = await cgRes.json() as Record<string, { usd?: number; usd_24h_change?: number }>;   
+    const mnData = await mnRes.json() as Array<{ code: string; rate_float: number }>;
+
+    const usdToMnt = (mnData.find( x => x.code === "USD")?.rate_float) || 1;
+
+    const coinAliases: Record<string, string> = {
+      "binancecoin": "bnb",
+      "matic-network": "matic",
+    };
+    
+    const coins = Object.entries(cryptoData).map(([coin, info]) => {
+      const name = coinAliases[coin] || coin;
+      const usdPrice = info.usd || 0;
+      const mntPrice = usdPrice * usdToMnt;
+      const change = info.usd_24h_change ? info.usd_24h_change.toFixed(2) : "0.00";
+      return {
+        name,
+        usdPrice: usdPrice.toFixed(2),
+        mntPrice: mntPrice.toLocaleString(),
+        change,
+        isFalling: parseFloat(change) < 0
+      };
+    });
+
+    return coins;
+  } catch (err) {
+    console.error("Ханш авахад алдаа:", err);
+    return [];
+  }
+}
+
+const coins = await getCryptoData();
+---
+
+<MainLayout title="Ханш">
+  <section class="birj-section">
+    <h1 class="title">Ханш</h1>
+    <div class="birj-content">
+      {coins.map(coin => (
+        <div class={`coin ${coin.isFalling ? "falling" : "rising"}`} data-name={coin.name}>
+          <div class="coin-logo">
+            <img src={`/images/${coin.name}.png`} alt={coin.name} loading="lazy" />
+          </div>
+          <div class="coin-name">
+            <h3>{coin.name}</h3>
+            <span class="change">{coin.change}%</span>
+          </div>
+          <div class="coin-price">
+            <span class="price">{coin.mntPrice}₮</span>
+            <br />
+            <span class="mnt-price">${coin.usdPrice}</span>
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+</MainLayout>
+
+<style>
+
+
+.birj-content {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.coin {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: var(--background-alt);
+  border-radius: 12px;
+  padding: 15px 20px;
+  width: 180px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  text-align: center;
+}
+
+.coin:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 5px 12px rgba(0,0,0,0.15);
+}
+
+.coin-logo img {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+  border-radius: 50%;
+  margin-bottom: 8px;
+}
+.coin-name {
+  display: flex;
+}
+
+.coin-name h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  text-transform: capitalize;
+}
+
+.coin-name span {
+    margin: 5px 0 0 5px;
+}
+
+.coin-price {
+  margin-top: 5px;
+}
+.coin-price .mnt-price {
+  color: var(--grey-600);
+}
+
+.price {
+  font-weight: 700;
+}
+
+
+.change {
+  font-size: 0.8rem;
+}
+
+.mnt-price {
+  font-size: 0.8rem;
+  color: #444;
+}
+
+.rising .change { color: #3cb371; }
+.falling .change { color: #e74c3c; }
+
+
+</style>

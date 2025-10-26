@@ -1,0 +1,397 @@
+---
+import MainLayout from "../layouts/MainLayout.astro";
+import PaymentModal from "../components/PaymentModal.astro";
+import VideoModal from "../components/VideoModal.astro";
+
+const scripts = [
+    {
+        id: 1,
+        name: "Dice Script",
+        price: 20000,
+        discountPrice: 17000,
+        duration: "3 өдөр үлдлээ",
+        discount: 15,
+        students: 120,
+        image: "https://litepick.io/assets/img/games/Dice_300.png",
+        link: "https://litepick.io/multiply.php",
+        description: "Таныг хэд хожихыг хэлдэг ухаалаг автомат Dice script.",
+    },
+    {
+        id: 2,
+        name: "Roulette Script",
+        price: 20000,
+        discountPrice: 17000,
+        duration: "2 өдөр үлдлээ",
+        discount: 15,
+        students: 85,
+        image: "https://litepick.io/assets/img/games/Roulette_300.png",
+        link: "#",
+        description:
+            "Энэхүү дайс скрипт нь таныг хэд хожиж хэд ялахыг хэлдэг бөгөөд баланс аврах арга орсон болно.",
+    },
+    {
+        id: 3,
+        name: "freebitcoin Script",
+        price: 20000,
+        discountPrice: 17000,
+        duration: "2 өдөр үлдлээ",
+        discount: 15,
+        students: 85,
+        image: "https://litepick.io/assets/img/games/Roulette_300.png",
+        link: "#",
+        description:
+            "Энэхүү дайс скрипт нь таныг хэд хожиж хэд ялахыг хэлдэг бөгөөд баланс аврах арга орсон болно.",
+    },
+    {
+        id: 4,
+        name: "ninja Script",
+        price: 20000,
+        discountPrice: 17000,
+        duration: "2 өдөр үлдлээ",
+        discount: 15,
+        students: 85,
+        image: "https://litepick.io/assets/img/games/Roulette_300.png",
+        link: "#",
+        description:
+            "Энэхүү дайс скрипт нь таныг хэд хожиж хэд ялахыг хэлдэг бөгөөд баланс аврах арга орсон болно.",
+    },
+];
+---
+
+<MainLayout title="Скрипт дэлгүүр">
+    <h1 class="title">Скрипт</h1>
+    <div class="header">
+        <ul>
+            <li class="active"><a href="#">Бүгд</a></li>
+            <li><a href="#">Шинэ</a></li>
+            <li><a href="#">Хямдралтай</a></li>
+            <li><a href="#">Онцлох</a></li>
+        </ul>
+    </div>
+    <section class="store">
+        <div class="grid">
+            {
+                scripts.map((s) => (
+                    <div class="card">
+                        <div class="img-box">
+                            <img src={s.image} alt={s.name} />
+                            {s.discount && (
+                                <span class="badge">-{s.discount}%</span>
+                            )}
+                        </div>
+
+                        <div class="content">
+                            <h3>{s.name}</h3>
+                            <p class="desc">{s.description}</p>
+
+                            <div class="meta">
+                                <span>⏰ {s.duration}</span>
+                            </div>
+
+                            <div class="price-box">
+                                <span class="old">
+                                    {s.price.toLocaleString()}₮
+                                </span>
+                                <span class="new">
+                                    {s.discountPrice.toLocaleString()}₮
+                                </span>
+                            </div>
+
+                            <div class="actions">
+                                <a class="btn">
+                                    <i class="bxr  bx-video-cinema" />
+                                </a>
+                                <a class="btn">
+                                    <i class="bxr  bx-cart" />
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                ))
+            }
+        </div>
+    </section>
+    <script is:inline>
+        document.addEventListener("DOMContentLoaded", () => {
+            const videoModal = document.getElementById("videoModal");
+            const paymentModal = document.getElementById("paymentModal");
+            const body = document.body;
+
+            // --- Open buttons ---
+            document.querySelectorAll(".btn").forEach((btn) => {
+                const videoIcon = btn.querySelector(".bx-video-cinema");
+                const cartIcon = btn.querySelector(".bx-cart");
+
+                // 🎬 Видео modal нээх
+                if (videoIcon) {
+                    btn.addEventListener("click", (e) => {
+                        e.preventDefault();
+                        videoModal.style.display = "flex";
+                        body.classList.add("blurred");
+                    });
+                }
+
+                // 💳 Төлбөрийн modal нээх
+                if (cartIcon) {
+                    btn.addEventListener("click", (e) => {
+                        e.preventDefault();
+                        paymentModal.style.display = "flex";
+                        body.classList.add("blurred");
+                    });
+                }
+            });
+
+            // --- Хаах товчлуурууд ---
+            document.querySelectorAll(".modal .close").forEach((close) => {
+                close.addEventListener("click", (e) => {
+                    const modal = close.closest(".modal");
+                    modal.style.display = "none";
+                    body.classList.remove("blurred");
+
+                    // if it's a video modal, reset iframe
+                    const iframe = modal.querySelector("iframe");
+                    if (iframe) iframe.src = iframe.src;
+                });
+            });
+
+            // --- Modal гадна дархад хаах ---
+            window.addEventListener("click", (e) => {
+                document.querySelectorAll(".modal").forEach((modal) => {
+                    if (e.target === modal) {
+                        modal.style.display = "none";
+                        body.classList.remove("blurred");
+                        const iframe = modal.querySelector("iframe");
+                        if (iframe) iframe.src = iframe.src;
+                    }
+                });
+            });
+        });
+    </script>
+
+    <PaymentModal client:load />
+    <VideoModal client:load />
+</MainLayout>
+
+<style>
+    .header ul {
+        display: flex;
+        gap: 20px;
+        list-style: none;
+        align-items: center;
+    }
+
+    .header ul li {
+        position: relative;
+    }
+
+    .header ul li a {
+        display: block;
+        padding: 8px 14px;
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--grey-400);
+        text-decoration: none;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+    }
+
+    /* Hover & Active state */
+    .header ul li a:hover,
+    .header ul li.active a {
+        background: linear-gradient(135deg, #2563eb, #1e40af);
+        color: #fff;
+        box-shadow: 0 2px 6px rgba(37, 99, 235, 0.3);
+    }
+
+    /* Underline animation (optional, elegant effect) */
+    .header ul li a::after {
+        content: "";
+        position: absolute;
+        bottom: -3px;
+        left: 50%;
+        transform: translateX(-50%) scaleX(0);
+        width: 60%;
+        height: 2px;
+        background: linear-gradient(90deg, #2563eb, #1e40af);
+        border-radius: 2px;
+        transition: transform 0.3s ease;
+    }
+    .header ul li a:hover::after {
+        transform: translateX(-50%) scaleX(1);
+    }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+        .header ul {
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+        .header ul li a {
+            font-size: 13px;
+            padding: 7px 10px;
+        }
+    }
+    .store {
+        padding: 20px 20px;
+        font-family: "Inter", sans-serif;
+        min-height: 100vh;
+    }
+
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+        gap: 28px;
+    }
+
+    .card {
+        background: var(--background-alt);
+        border-radius: 18px;
+        overflow: hidden;
+        box-shadow: 0 3px 15px rgba(0, 0, 0, 0.08);
+        transition: all 0.3s ease;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+    }
+
+    /* --- Image box --- */
+    .img-box {
+        position: relative;
+        background: linear-gradient(135deg, #04163b, #1e40af);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 80px;
+    }
+
+    .img-box img {
+        margin-top: auto;
+        border-radius: 12px;
+        height: 130%;
+        width: auto;
+        object-fit: contain;
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+        transition: transform 0.4s ease;
+    }
+
+    .card:hover .img-box img {
+        transform: scale(1.05);
+    }
+
+    .badge {
+        position: absolute;
+        top: 8px;
+        left: 8px;
+        background: linear-gradient(135deg, #ef4444, #dc2626);
+        color: #fff;
+        font-size: 11px;
+        font-weight: 600;
+        padding: 3px 8px;
+        border-radius: 6px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+
+    /* --- Content --- */
+    .content {
+        padding: 16px 18px 20px 18px;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .content h3 {
+        font-size: 17px;
+        font-weight: 700;
+        color: var(--grey-900);
+        margin-bottom: 6px;
+    }
+
+    .desc {
+        font-size: 13px;
+        color: var(--grey-400);
+        line-height: 1.5;
+        margin-bottom: 10px;
+        min-height: 36px;
+    }
+
+    .meta {
+        display: flex;
+        font-size: 12px;
+        color: var(--grey-600);
+        margin-bottom: 10px;
+    }
+
+    .price-box {
+        justify-content: space-between;
+        display: flex;
+        align-items: baseline;
+        gap: 8px;
+        margin-bottom: 14px;
+    }
+
+    .price-box .old {
+        font-size: 13px;
+        color: #888;
+        text-decoration: line-through;
+    }
+
+    .price-box .new {
+        font-size: 18px;
+        font-weight: 700;
+        background: linear-gradient(90deg, #2563eb, #3b82f6);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .actions {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+    }
+
+    .btn {
+        width: 48%;
+        display: inline-block;
+        text-align: center;
+        padding: 9px 0;
+        border-radius: 10px;
+        font-size: 14px;
+        font-weight: 600;
+        text-decoration: none;
+        color: white;
+        background: linear-gradient(135deg, #2563eb, #1e40af);
+        transition: 0.3s ease;
+    }
+
+    .btn:hover {
+        background: linear-gradient(135deg, #1e3a8a, #1d4ed8);
+        transform: translateY(-2px);
+    }
+
+    @media (max-width: 500px) {
+        .store {
+            padding: 20px 50px;
+        }
+        .grid {
+            grid-template-columns: 1fr;
+        }
+        .header h2 {
+            font-size: 20px;
+        }
+        .content h3 {
+            font-size: 15px;
+        }
+        .desc {
+            font-size: 12px;
+        }
+        .btn {
+            font-size: 13px;
+        }
+    }
+</style>
