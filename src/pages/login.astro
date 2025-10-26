@@ -17,12 +17,11 @@ if (accessToken && refreshToken) {
             <p>Бүртгэлтэй нэрээр орно уу</p>
             <form action="/api/auth/signin" method="POST">
                 <div class="form-group">
-                    <label>Нэвтрэх нэр</label>
+                    <label>Имэйл</label>
                     <input
-                        type="text"
-                        name="username"
-                        placeholder="Нэр"
-                        autocomplete="off"
+                        type="email"
+                        name="email"
+                        placeholder="Имэйл хаяг "
                         required
                     />
                 </div>
